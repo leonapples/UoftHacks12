@@ -1,11 +1,77 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useFonts, Cormorant_700Bold } from '@expo-google-fonts/cormorant';
+import { Ionicons } from '@expo/vector-icons';
+import HomeTab from './src/tabs/HomeTab';
+import ExploreTab from './src/tabs/ExploreTab';
+import AchievementsTab from './src/tabs/AchievementsTab';
+import ProfileTab from './src/tabs/ProfileTab';
 
-export default function App() {
+const Tab = createBottomTabNavigator();
+
+const App = () => {
+  let [fontsLoaded] = useFonts({
+    Cormorant_700Bold,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            headerStyle: {
+              height: 115,
+            },
+            headerTitleStyle: {
+              fontFamily: 'Cormorant_700Bold',
+              fontSize: 48,
+              color: '#1E3765',
+              paddingBottom: 10,
+            },
+            headerShadowVisible: false,
+            headerTitleAlign: 'left',
+            headerLeft: () => (route.name === 'bluequest' ?
+              <View style={styles.logoContainer}>
+                <Text style={styles.logoText}>bq</Text>
+              </View> : null
+            ),
+            headerLeftContainerStyle: {
+              paddingBottom: 8,
+            },
+            tabBarShowLabel: false,
+            tabBarIcon: ({ focused, color }) => {
+              let iconName;
+              if (route.name === 'bluequest') {
+                iconName = focused ? 'map' : 'map-outline';
+              } else if (route.name === 'achievements') {
+                iconName = focused ? 'trophy' : 'trophy-outline';
+              } else if (route.name === 'explore') {
+                iconName = focused ? 'compass' : 'compass-outline';
+              } else if (route.name === 'profile') {
+                iconName = focused ? 'person' : 'person-outline';
+              }
+              return <Ionicons name={iconName} size={30} color={color} />;
+            },
+            tabBarStyle: {
+              height: 80,
+              borderTopColor: 'transparent',
+              paddingTop: 8,
+            },
+            tabBarActiveTintColor: '#1E3765',
+            tabBarInactiveTintColor: 'gray',
+          })}
+        >
+          <Tab.Screen name="bluequest" component={HomeTab} />
+          <Tab.Screen name="explore" component={ExploreTab} />
+          <Tab.Screen name="achievements" component={AchievementsTab} />
+          <Tab.Screen name="profile" component={ProfileTab} />
+        </Tab.Navigator>
+      </NavigationContainer>
     </View>
   );
 }
@@ -13,8 +79,23 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  logoContainer: {
+    width: 40,
+    height: 40,
+    backgroundColor: '#1E3765',
     justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    marginLeft: 16,
+    marginRight: 8,
+  },
+  logoText: {
+    color: '#FFFFFF',
+    fontSize: 30,
+    fontFamily: 'Cormorant_700Bold',
   },
 });
+
+export default App;
