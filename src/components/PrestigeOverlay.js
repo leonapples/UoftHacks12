@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { PRESTIGE_TITLES } from '../constants/prestige';
+// import { useGameState } from '../components/GameStateProvider';
 
 const PrestigeOverlay = ({ playerStats }) => {
   const progressPercentage = (playerStats.currentXP / playerStats.xpToNextLevel) * 100;

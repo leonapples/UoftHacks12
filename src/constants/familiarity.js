@@ -13,3 +13,11 @@ const FAMILIARITY_XP = {
   4: 1000,
   5: null
 };
+
+const FAMILIARITY_THRESHOLDS = {
+  1: 0,
+  2: 100,
+  3: 350,
+  4: 850,
+  5: 1850
+};

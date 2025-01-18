@@ -1,11 +1,24 @@
 import { View, StyleSheet, Dimensions } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 import Map from '../components/Map';
+
+const Stack = createStackNavigator<TodayStackParamList>();
 
 const HomeTab = () => {
   return (
-    <View style={styles.container}>
-      <Map />
-    </View>
+    <Stack.Navigator
+      initialRouteName="TodayPage"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="TodayPage" component={TodayPage} />
+      <Stack.Screen
+        name="WardrobePopupPage"
+        component={WardrobePopupPage}
+        options={{ presentation: 'modal' }}
+      />
+    </Stack.Navigator>
   );
 }
 

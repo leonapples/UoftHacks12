@@ -5,6 +5,7 @@ import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import PrestigeOverlay from './PrestigeOverlay';
 import { BEACONS } from '../constants/beacons';
+import Toast from 'react-native-toast-message';
 
 const Map = () => {
   const [location, setLocation] = useState(null);
