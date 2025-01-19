@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { updateState } from '../utils/logic';
 import { INITIAL_STATE } from '../constants/initialState';
 
 const GameStateContext = createContext();
@@ -9,8 +10,8 @@ const GameStateProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    loadGameState();
     // AsyncStorage.removeItem('BLUEQUEST');
+    loadGameState();
   }, []);
 
   useEffect(() => {

@@ -7,7 +7,9 @@ import PrestigeOverlay from './PrestigeOverlay';
 import { BEACONS } from '../constants/beacons';
 import Toast from 'react-native-toast-message';
 
-const Map = () => {
+const Map = (props) => {
+  const { navigation } = props;
+
   const [location, setLocation] = useState(null);
   const mapRef = useRef(null);
   
@@ -57,7 +59,7 @@ const Map = () => {
             }}
           >
             <Ionicons 
-              name="location-sharp" 
+              name="location-sharp"
               size={50} 
               color="#1E3765"
             /> 
@@ -76,11 +78,14 @@ const Map = () => {
               coordinate={beacon.location}
               title={beacon.name}
               opacity={nearby ? 1.0 : 0.5}
+              onCalloutPress={(
+                () => navigation.navigate('BeaconModal', { beaconId: beacon.id, location })
+              )}
             >
               <Ionicons 
                 name="cube" 
                 size={30} 
-                color={beacon.historic ? "red" : "#1E3765"}
+                color={beacon.historic ? "#B8860B" : "#1E3765"}
               />
             </Marker>
           );
@@ -119,12 +124,13 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 30,
     shadowColor: '#1E3765',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowOffset: {
       width: 0,
       height: 2
-    }}
+    }
+  }
 });
 
 export default Map;

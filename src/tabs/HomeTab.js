@@ -1,26 +1,30 @@
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Map from '../components/Map';
+import BeaconModal from '../components/BeaconModal';
 
-const Stack = createStackNavigator<TodayStackParamList>();
+const Stack = createStackNavigator();
 
 const HomeTab = () => {
   return (
     <Stack.Navigator
-      initialRouteName="TodayPage"
+      initialRouteName="Map"
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen name="TodayPage" component={TodayPage} />
+      <Stack.Screen name="Map" component={Map} />
       <Stack.Screen
-        name="WardrobePopupPage"
-        component={WardrobePopupPage}
-        options={{ presentation: 'modal' }}
+        name="BeaconModal"
+        component={BeaconModal}
+        options={{
+          cardStyle: { backgroundColor: 'white' },
+          animation: 'slide_from_bottom'
+        }}
       />
     </Stack.Navigator>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

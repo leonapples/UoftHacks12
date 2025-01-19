@@ -1,6 +1,8 @@
 import { BEACONS } from "../constants/beacons";
 import { ACHIEVEMENTS } from "../constants/achievements";
 import Toast from "react-native-toast-message";
+import { PRESTIGE_THRESHOLDS } from "../constants/prestige";
+import { FAMILIARITY_THRESHOLDS } from "../constants/familiarity";
 
 export const getLevel = (experience, thresholds) => {
   let level = 1;
@@ -47,21 +49,21 @@ export const updateState = (prev, beaconId) => {
     type: 'success',
     text1: `Beacon ${discovery ? 'Discovered' : 'Activated'}`,
     text2: `${discovery ? 'Congratulations on discovering a new beacon.' : ''} You have earned ${experience} XP.`,
-    visibilityTime: 2000,
+    visibilityTime: 2500,
   });
 
-  let delay = 2500;
+  let delay = 3000;
 
   newAchievements.forEach(achievement => {
     setTimeout(() => {
       Toast.show({
         type: 'success',
         text1: 'Achievement Unlocked!',
-        text2: achievement.title,
-        visibilityTime: 2000,
+        text2: achievement[1].title,
+        visibilityTime: 2500,
       });
     }, delay);
-    delay += 2500;
+    delay += 3000;
   });
 
   if (newPrestigeLevel > oldPrestigeLevel) {
@@ -70,10 +72,10 @@ export const updateState = (prev, beaconId) => {
         type: 'success',
         text1: 'Prestige Up!',
         text2: `You are now Campus Prestige ${newPrestigeLevel}`,
-        visibilityTime: 2000,
+        visibilityTime: 2500,
       });
     }, delay);
-    delay += 2500;
+    delay += 3000;
   }
 
   if (newFamiliarityLevel > oldFamiliarityLevel) {
@@ -82,7 +84,7 @@ export const updateState = (prev, beaconId) => {
         type: 'success',
         text1: `${BEACONS[beaconId].name} Familiarity Up!`,
         text2: `${BEACONS[beaconId].name} is now Familiarity ${newFamiliarityLevel}`,
-        visibilityTime: 2000,
+        visibilityTime: 2500,
       });
     }, delay);
   };

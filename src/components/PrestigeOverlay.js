@@ -1,24 +1,30 @@
 import { View, Text, StyleSheet } from 'react-native';
-import { PRESTIGE_TITLES } from '../constants/prestige';
-// import { useGameState } from '../components/GameStateProvider';
+import { PRESTIGE_TITLES, PRESTIGE_THRESHOLDS } from '../constants/prestige';
+import { getLevel } from '../utils/logic';
+import { useGameState } from '../components/GameStateProvider';
 
-const PrestigeOverlay = ({ playerStats }) => {
-  const progressPercentage = (playerStats.currentXP / playerStats.xpToNextLevel) * 100;
+const PrestigeOverlay = () => {
+  const { gameState } = useGameState();
+  const { player } = gameState;
+
+  const level = getLevel(player.experience, PRESTIGE_THRESHOLDS);
+  const currentLevelXP = player.experience - PRESTIGE_THRESHOLDS[level];
+  const xpToNextLevel = PRESTIGE_THRESHOLDS[level + 1] - PRESTIGE_THRESHOLDS[level];
 
   return (
     <View style={styles.statsContainer}>
-      <Text style={styles.titleText}>{PRESTIGE_TITLES[playerStats.level]}</Text>
-      <Text style={styles.prestigeText}>Campus Prestige {playerStats.level}</Text>
+      <Text style={styles.titleText}>{PRESTIGE_TITLES[level]}</Text>
+      <Text style={styles.prestigeText}>Campus Prestige {level}</Text>
       <View style={styles.progressBarContainer}>
         <View 
           style={[
             styles.progressBar, 
-            { width: `${progressPercentage}%` }
+            { width: `${(currentLevelXP / xpToNextLevel) * 100}%` }
           ]} 
         />
       </View>
       <Text style={styles.xpText}>
-        {playerStats.currentXP} / {playerStats.xpToNextLevel} XP
+        {currentLevelXP} / {xpToNextLevel || 0} XP
       </Text>
     </View>
   );
@@ -34,7 +40,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     width: 220,
     shadowColor: '#1E3765',
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
     shadowOffset: {
       width: 0,
