@@ -113,11 +113,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Cormorant_700Bold',
   },
   toastContainer: {
-    width: 300,
+    width: 370,
     marginTop: 30,
     backgroundColor: '#1E3765',
     padding: 20,
-    borderRadius: 10,
+    borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 5,

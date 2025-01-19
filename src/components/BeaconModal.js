@@ -29,7 +29,7 @@ const BeaconModal = (props) => {
         <View style={styles.header}>
           <Ionicons
             style={styles.back}
-            name="chevron-back" 
+            name="chevron-down" 
             size={32} 
             color="#1E3765"
             onPress={() => navigation.goBack()}
@@ -224,6 +224,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
+    position: '',
     width: '100%',
     backgroundColor: '#1E3765',
     padding: 15,

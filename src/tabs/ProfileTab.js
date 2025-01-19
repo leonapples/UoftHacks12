@@ -70,7 +70,7 @@ const ProfileTab = () => {
         <View style={styles.statCard}>
           <MaterialCommunityIcons name="map-marker-check" size={24} color="#1E3765" />
           <Text style={styles.statNumber}>{discovered}/{total}</Text>
-          <Text style={styles.statLabel}>Beacons Discovered</Text>
+          <Text style={styles.statLabel}>Total Beacons Discovered</Text>
         </View>
         <View style={styles.statCard}>
           <MaterialCommunityIcons name="castle" size={24} color="#1E3765" />
@@ -80,7 +80,7 @@ const ProfileTab = () => {
         <View style={styles.statCard}>
           <MaterialCommunityIcons name="star" size={24} color="#1E3765" />
           <Text style={styles.statNumber}>{totalVisits}</Text>
-          <Text style={styles.statLabel}>Total Activations</Text>
+          <Text style={styles.statLabel}>Total Beacon Activations</Text>
         </View>
         <View style={styles.statCard}>
           <MaterialCommunityIcons name="star-circle" size={24} color="#1E3765" />
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   card: {
-    paddingVertical: 10,
+    paddingBottom: 10,
     paddingHorizontal: 20,
     marginHorizontal: 30,
     borderRadius: 20,

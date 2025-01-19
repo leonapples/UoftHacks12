@@ -102,7 +102,7 @@ const Map = (props) => {
           color="#1E3765"
         />
       </TouchableOpacity>
-      <PrestigeOverlay playerStats={{ level: 1, currentXP: 30, xpToNextLevel: 100 }}/>
+      <PrestigeOverlay />
     </View>
   );
 }
