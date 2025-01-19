@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import BeaconMarker from './BeaconMarker';
 import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
 import PrestigeOverlay from './PrestigeOverlay';
 import { BEACONS } from '../constants/beacons';
+import { isNearby } from '../utils/activebeacon';
 import Toast from 'react-native-toast-message';
 
 const Map = (props) => {
@@ -20,9 +22,15 @@ const Map = (props) => {
       return;
     }
     setInterval(async () => {
-      const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-      });
+      // const location = await Location.getCurrentPositionAsync({
+      //   accuracy: Location.Accuracy.Balanced,
+      // });
+      const location = {
+        coords: {
+          latitude: 43.6608787 + 0.0002,
+          longitude: -79.3984443 + 0.0004
+        }
+      }
       setLocation(location);
     }, 500);
   };
@@ -88,28 +96,16 @@ const Map = (props) => {
         )}
 
         {Object.values(BEACONS).map(beacon => {
-          const nearby = location ? 
-            Math.abs(location.coords.latitude - beacon.location.latitude) < 0.0003 && 
-            Math.abs(location.coords.longitude - beacon.location.longitude) < 0.0003
-            : false;
+          const nearby = isNearby(location, beacon.location);
 
           return (
-            <Marker
+            <BeaconMarker 
               key={beacon.id}
-              ref={ref => markerRefs.current[beacon.id] = ref}
-              coordinate={beacon.location}
-              title={beacon.name}
-              opacity={nearby ? 1.0 : 0.5}
-              onCalloutPress={(
-                () => navigation.navigate('BeaconModal', { beaconId: beacon.id, location })
-              )}
-            >
-              <Ionicons 
-                name="cube" 
-                size={30} 
-                color={beacon.historic ? "#B8860B" : "#1E3765"}
-              />
-            </Marker>
+              beacon={beacon}
+              nearby={nearby}
+              navigation={navigation}
+              markerRefs={markerRefs}
+            />
           );
         })}
       </MapView>

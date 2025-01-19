@@ -77,6 +77,7 @@ const ExploreTab = (props) => {
               setFocusCounter(prev => prev + 1);
               navigation.navigate("bluequest", { beaconId: beacon.id, focusCounter })
             }} 
+            activeOpacity={0.8}
             style={styles.card} 
             key={beacon.id}
           >

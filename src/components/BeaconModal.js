@@ -5,14 +5,18 @@ import { Ionicons } from '@expo/vector-icons';
 import { getLevel } from '../utils/logic';
 import { FAMILIARITY_THRESHOLDS, FAMILIARITY_TITLES, FAMILIARITY_XP } from '../constants/familiarity';
 import { format } from 'date-fns';
+import { isRecharged } from '../utils/activebeacon';
 
 const BeaconModal = (props) => {
   const { route, navigation } = props;
   const { gameState, activateBeacon } = useGameState();
 
-  const { beaconId, location } = route.params;
+  const { beaconId, nearby } = route.params;
   const beaconState = gameState.beacons[beaconId];
   const beaconData = BEACONS[beaconId];
+
+  const recharged = isRecharged(beaconState.lastVisited);
+  const disabled = !nearby || !recharged;
 
   let level;
   if (beaconState.experience === 0) {
@@ -95,7 +99,8 @@ const BeaconModal = (props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => activateBeacon(beaconId)}
-          style={styles.button}
+          disabled={disabled}
+          style={[styles.button, disabled && styles.disabledButton]}
         >
           <Ionicons
             name="flash" 
@@ -103,8 +108,16 @@ const BeaconModal = (props) => {
             color="#FFFFFF"
             style={styles.buttonIcon}
           />
-          <Text style={styles.buttonText}>Activate Beacon</Text>
+          {!nearby ?
+            <Text style={styles.buttonText}>Not Nearby</Text> :
+            !recharged ? 
+              <Text style={styles.buttonText}>Recharging...</Text> : 
+              <Text style={styles.buttonText}>Activate Beacon</Text>
+          }
         </TouchableOpacity>
+        {!recharged && nearby && (
+          <Text style={[styles.text, { marginTop: 6 }]}>Beacons recharge 24 hours after activation.</Text>
+        )}
       </View>
     </ScrollView>
   );
@@ -221,7 +234,7 @@ const styles = StyleSheet.create({
     color: '#666',
     textAlign: 'right',
     marginTop: 2,
-    marginBottom: 10,
+    marginBottom: 7,
   },
   button: {
     position: '',
@@ -230,6 +243,9 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 15,
     alignItems: 'center',
+  },
+  disabledButton: {
+    backgroundColor: '#1E376580',
   },
   buttonIcon: {
     position: 'absolute',

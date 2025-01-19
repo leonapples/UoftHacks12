@@ -18,8 +18,8 @@ export const BEACONS = {
     historic: true,
     yearBuilt: 1919,
     location: {
-      latitude: 43.66413,
-      longitude: -79.39333
+      latitude: 43.6640,
+      longitude: -79.3943
     },
     address: "7 Hart House Circle, Toronto, ON M5S 3H3",
     description: "A historic student activity center offering arts, culture and recreation since 1919. Features a historic gym, theatre, and art gallery.",
@@ -67,7 +67,7 @@ export const BEACONS = {
     historic: false,
     location: {
       latitude: 43.6598852,
-      longitude: -79.39635249
+      longitude: -79.39605249
     },
     address: "35 St. George Street, Toronto, ON M5S 1A4",
     description: "The traditional home of Engineering at UofT. Look out for the famous cannon!",
@@ -103,8 +103,8 @@ export const BEACONS = {
     historic: true,
     yearBuilt: 1892,
     location: {
-      latitude: 43.66222,
-      longitude: -79.39333
+      latitude: 43.66192,
+      longitude: -79.39353
     },
     address: "9 King's College Circle, Toronto, ON M5S 1A5",
     description: "The science and health sciences library, housed in a beautiful historic building.",
@@ -115,8 +115,8 @@ export const BEACONS = {
     name: "Earth Sciences Centre",
     historic: false,
     location: {
-      latitude: 43.66060,
-      longitude: -79.39694
+      latitude: 43.6609659,
+      longitude: -79.3997854
     },
     address: "22 Ursula Franklin Street, Toronto, ON M5S 3B1",
     description: "Home to Earth Sciences and Chemistry departments, featuring indoor gardens.",
@@ -127,8 +127,8 @@ export const BEACONS = {
     name: "Mechanical Engineering",
     historic: false,
     location: {
-      latitude: 43.65997,
-      longitude: -79.39433
+      latitude: 43.6601026,
+      longitude: -79.3939125
     },
     address: "5 King's College Road, Toronto, ON M5S 1A8",
     description: "Home to Mechanical and Industrial Engineering, featuring various labs and machine shops.",
@@ -140,8 +140,8 @@ export const BEACONS = {
     historic: true,
     yearBuilt: 1907,
     location: {
-      latitude: 43.66027,
-      longitude: -79.39493
+      latitude: 43.66017,
+      longitude: -79.39513
     },
     address: "10 King's College Road, Toronto, ON M5S 3G4",
     description: "Historic engineering building named after the inventor of Standard Time. Features the famous SF Cafeteria.",
@@ -152,8 +152,8 @@ export const BEACONS = {
     name: "McLennan Physical Labs",
     historic: false,
     location: {
-      latitude: 43.66205,
-      longitude: -79.39775
+      latitude: 43.6608787,
+      longitude: -79.3984443
     },
     address: "60 St. George Street, Toronto, ON M5S 1A7",
     description: "Home to Physics and Astronomy departments. Connected to Burton Tower, featuring research labs and lecture halls.",
