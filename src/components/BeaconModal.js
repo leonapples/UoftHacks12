@@ -67,7 +67,7 @@ const BeaconModal = (props) => {
             />
           </View>
           <Text style={styles.xpText}>
-            {currentLevelXp || 0} / {xpToNextLevel || 0} XP
+            {currentLevelXp || 0} / {xpToNextLevel || (level === 5 ? '∞' : 0)} XP
           </Text>
           <Text style={styles.descriptionText}>{beaconData.description}</Text>
           {beaconData.historic && (

@@ -1,9 +1,13 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useRef } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useGameState } from '../components/GameStateProvider';
 import { PRESTIGE_THRESHOLDS, PRESTIGE_TITLES } from '../constants/prestige';
 import { BEACONS } from '../constants/beacons';
 import { getLevel } from '../utils/logic';
+import ViewShot from 'react-native-view-shot';
+import * as Sharing from 'expo-sharing';
+
 
 const ProfileTab = () => {
   const { gameState, isLoading } = useGameState();
@@ -11,6 +15,15 @@ const ProfileTab = () => {
 
   if (isLoading) {
     return null;
+  };
+
+  const viewShotRef = useRef();
+
+  const onShare = async () => {
+    const uri = await viewShotRef.current.capture();
+    await Sharing.shareAsync(`file://${uri}`, {
+      mimeType: 'image/png',
+    });
   };
 
   const level = getLevel(player.experience, PRESTIGE_THRESHOLDS);
@@ -50,44 +63,57 @@ const ProfileTab = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.card}>
-        {icon}
-        <Text style={styles.titleText}>{PRESTIGE_TITLES[level]}</Text>
-        <Text style={styles.prestigeText}>Campus Prestige {level}</Text>
-        <View style={styles.progressBarContainer}>
-          <View 
-            style={[
-              styles.progressBar, 
-              { width: `${(currentLevelXP / xpToNextLevel) * 100}%` }
-            ]} 
-          />
+      <ViewShot
+        ref={viewShotRef}
+        options={{
+          format: "png",
+          quality: 0.9
+        }}
+        style={styles.container}
+      >
+        <View style={styles.card}>
+          {icon}
+          <Text style={styles.titleText}>{PRESTIGE_TITLES[level]}</Text>
+          <Text style={styles.prestigeText}>Campus Prestige {level}</Text>
+          <View style={styles.progressBarContainer}>
+            <View 
+              style={[
+                styles.progressBar, 
+                { width: `${(currentLevelXP / xpToNextLevel) * 100 || 0}%` }
+              ]} 
+            />
+          </View>
+          <Text style={styles.xpText}>
+            {currentLevelXP || 0} / {xpToNextLevel || (level === 5 ? '∞' : 0)} XP
+          </Text>
         </View>
-        <Text style={styles.xpText}>
-          {currentLevelXP} / {xpToNextLevel || 0} XP
-        </Text>
-      </View>
-      <View style={styles.statsContainer}>
-        <View style={styles.statCard}>
-          <MaterialCommunityIcons name="map-marker-check" size={24} color="#1E3765" />
-          <Text style={styles.statNumber}>{discovered}/{total}</Text>
-          <Text style={styles.statLabel}>Total Beacons Discovered</Text>
+        <View style={styles.statsContainer}>
+          <View style={styles.statCard}>
+            <MaterialCommunityIcons name="map-marker-check" size={24} color="#1E3765" />
+            <Text style={styles.statNumber}>{discovered}/{total}</Text>
+            <Text style={styles.statLabel}>Total Beacons Discovered</Text>
+          </View>
+          <View style={styles.statCard}>
+            <MaterialCommunityIcons name="castle" size={24} color="#1E3765" />
+            <Text style={styles.statNumber}>{historicDiscovered}/{totalHistoric}</Text>
+            <Text style={styles.statLabel}>Historic Beacons Discovered</Text>
+          </View>
+          <View style={styles.statCard}>
+            <MaterialCommunityIcons name="star" size={24} color="#1E3765" />
+            <Text style={styles.statNumber}>{totalVisits}</Text>
+            <Text style={styles.statLabel}>Total Beacon Activations</Text>
+          </View>
+          <View style={styles.statCard}>
+            <MaterialCommunityIcons name="star-circle" size={24} color="#1E3765" />
+            <Text style={styles.statNumber}>{favouriteBeacon?.experience || 0} XP</Text>
+            <Text style={styles.statLabel}>{favouriteBeacon?.name || "No beacons yet."}{'\n'}Favourite Beacon XP</Text>
+          </View>
         </View>
-        <View style={styles.statCard}>
-          <MaterialCommunityIcons name="castle" size={24} color="#1E3765" />
-          <Text style={styles.statNumber}>{historicDiscovered}/{totalHistoric}</Text>
-          <Text style={styles.statLabel}>Historic Beacons Discovered</Text>
-        </View>
-        <View style={styles.statCard}>
-          <MaterialCommunityIcons name="star" size={24} color="#1E3765" />
-          <Text style={styles.statNumber}>{totalVisits}</Text>
-          <Text style={styles.statLabel}>Total Beacon Activations</Text>
-        </View>
-        <View style={styles.statCard}>
-          <MaterialCommunityIcons name="star-circle" size={24} color="#1E3765" />
-          <Text style={styles.statNumber}>{favouriteBeacon.experience} XP</Text>
-          <Text style={styles.statLabel}>{favouriteBeacon.name}{'\n'}Favourite Beacon XP</Text>
-        </View>
-      </View>
+      </ViewShot>
+      <TouchableOpacity style={styles.shareButton} activeOpacity={0.8} onPress={onShare}>
+        <MaterialCommunityIcons name="share-variant" size={24} color="#FFF" />
+        <Text style={styles.shareButtonText}>Share Progress</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -98,7 +124,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   card: {
-    paddingBottom: 10,
+    padding: 10,
     paddingHorizontal: 20,
     marginHorizontal: 30,
     borderRadius: 20,
@@ -163,6 +189,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     textAlign: 'center',
+  },
+  shareButton: {
+    backgroundColor: '#1E3765',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+    borderRadius: 12,
+    marginHorizontal: 25,
+    marginVertical: 10,
+    gap: 8,
+  },
+  shareButtonText: {
+    color: '#FFF',
+    fontSize: 20,
+    fontWeight: '500',
   },
 });
 

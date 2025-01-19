@@ -1,10 +1,10 @@
 export const FAMILIARITY_TITLES = {
   0: "Undiscovered",
-  1: "Novice",
-  2: "Familiar",
-  3: "Well-Known",
-  4: "Mastered",
-  5: "Legendary",
+  1: "First Steps",
+  2: "Frequent Visitor",
+  3: "Regular",
+  4: "Veteran",
+  5: "Guardian"
 };
 
 export const FAMILIARITY_THRESHOLDS = {

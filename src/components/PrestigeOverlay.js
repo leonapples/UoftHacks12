@@ -19,12 +19,12 @@ const PrestigeOverlay = () => {
         <View 
           style={[
             styles.progressBar, 
-            { width: `${(currentLevelXP / xpToNextLevel) * 100}%` }
+            { width: `${(currentLevelXP / xpToNextLevel) * 100 || 0}%` }
           ]} 
         />
       </View>
       <Text style={styles.xpText}>
-        {currentLevelXP} / {xpToNextLevel || 0} XP
+        {currentLevelXP || 0} / {xpToNextLevel || (level === 5 ? '∞' : 0)} XP
       </Text>
     </View>
   );

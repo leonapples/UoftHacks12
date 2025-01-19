@@ -8,7 +8,8 @@ import { BEACONS } from '../constants/beacons';
 import Toast from 'react-native-toast-message';
 
 const Map = (props) => {
-  const { navigation } = props;
+  const { beaconToFocus, focusCounter, navigation } = props;
+  const markerRefs = useRef({});
 
   const [location, setLocation] = useState(null);
   const mapRef = useRef(null);
@@ -30,6 +31,12 @@ const Map = (props) => {
     pollLocation();
   }, []);
 
+  useEffect(() => {
+    if (beaconToFocus) {
+      centerOnBeacon(beaconToFocus)
+    }
+  }, [beaconToFocus, focusCounter]);
+
   const centerMap = () => {
     mapRef.current.animateToRegion({
       latitude: location.coords.latitude - 0.001,
@@ -37,6 +44,19 @@ const Map = (props) => {
       latitudeDelta: 0.004,
       longitudeDelta: 0.004,
     });
+  }
+
+  const centerOnBeacon = (beaconId) => {
+    const location = BEACONS[beaconId].location;
+    setTimeout(() => {
+      mapRef.current.animateToRegion({
+        latitude: location.latitude - 0.0004,
+        longitude: location.longitude,
+        latitudeDelta: 0.002,
+        longitudeDelta: 0.002,
+      }, 1000);
+    }, 100);
+    markerRefs.current[beaconId]?.showCallout();
   }
 
   return (
@@ -57,6 +77,7 @@ const Map = (props) => {
               latitude: location.coords.latitude,
               longitude: location.coords.longitude
             }}
+            opacity={0.5}
           >
             <Ionicons 
               name="location-sharp"
@@ -75,6 +96,7 @@ const Map = (props) => {
           return (
             <Marker
               key={beacon.id}
+              ref={ref => markerRefs.current[beacon.id] = ref}
               coordinate={beacon.location}
               title={beacon.name}
               opacity={nearby ? 1.0 : 0.5}
