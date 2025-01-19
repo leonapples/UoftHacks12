@@ -22,15 +22,15 @@ const Map = (props) => {
       return;
     }
     setInterval(async () => {
-      // const location = await Location.getCurrentPositionAsync({
-      //   accuracy: Location.Accuracy.Balanced,
-      // });
-      const location = {
-        coords: {
-          latitude: 43.6608787 + 0.0002,
-          longitude: -79.3984443 + 0.0004
-        }
-      }
+      const location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
+      // const location = {
+      //   coords: {
+      //     latitude: 43.6608787 + 0.0002,
+      //     longitude: -79.3984443 + 0.0004
+      //   }
+      // }
       setLocation(location);
     }, 500);
   };
